@@ -9,6 +9,7 @@ import dano.mydano.flow_row.PlantListViewModel
 import dano.mydano.flow_row.databinding.FragmentPlantListBinding
 import dano.mydano.flow_row.util.Injector
 import androidx.fragment.app.viewModels
+import com.google.android.material.snackbar.Snackbar
 import dano.mydano.flow_row.R
 
 class PlantListFragment: Fragment() {
@@ -20,6 +21,17 @@ class PlantListFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentPlantListBinding.inflate(inflater, container, false)
         context ?: return binding.root
+
+        viewModel.spinner.observe(viewLifecycleOwner) { show ->
+            binding.spinner.visibility = if (show) View.VISIBLE else View.GONE
+        }
+
+        viewModel.snackbar.observe(viewLifecycleOwner) { text ->
+            text?.let {
+                Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
+                viewModel.onSnackbarShown()
+            }
+        }
 
         return binding.root
     }
