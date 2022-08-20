@@ -5,9 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dano.mydano.flow_row.data.NoGrowZone
+import dano.mydano.flow_row.data.repository.PlantRepository
 import kotlinx.coroutines.flow.*
 
-class PlantListViewModel : ViewModel() {
+class PlantListViewModel internal constructor(
+    private val plantRepository: PlantRepository
+): ViewModel() {
 
     //The current growZone selection.
     private val growZone = MutableLiveData(NoGrowZone)
@@ -31,6 +34,7 @@ class PlantListViewModel : ViewModel() {
         growZoneFlow.mapLatest { growZone ->
             _spinner.value = true
             if (growZone == NoGrowZone) {
+                plantRepository.tryUpdateRecentPlantsCache()
 
             } else {
 

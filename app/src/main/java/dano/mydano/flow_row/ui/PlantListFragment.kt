@@ -11,6 +11,7 @@ import dano.mydano.flow_row.util.Injector
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import dano.mydano.flow_row.R
+import dano.mydano.flow_row.data.repository.PlantRepository
 
 class PlantListFragment: Fragment() {
 
@@ -59,8 +60,8 @@ class PlantListFragment: Fragment() {
 }
 
 class PlantListViewModelFactory(
-
+    private val repository: PlantRepository
 ): ViewModelProvider.NewInstanceFactory() {
-    override fun <T : ViewModel> create(modelClass: Class<T>) = PlantListViewModel() as T
+    override fun <T : ViewModel> create(modelClass: Class<T>) = PlantListViewModel(repository) as T
     }
 
